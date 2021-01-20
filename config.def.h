@@ -17,7 +17,7 @@ static char normbgcolor[]           = "#3b4252";
 static char normbordercolor[]       = "#4c566a";
 static char normfgcolor[]           = "#d8dee9";
 static char selfgcolor[]            = "#e5e9f0";
-static char selbordercolor[]        = "#b48ead";
+static char selbordercolor[]        = "#bf616a";
 static char selbgcolor[]            = "#bf616a";
 static char *colors[][3] = {
        /*               fg           bg           border   */
@@ -78,14 +78,14 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-hp", "firefox", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "termite", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY, 			            XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,             			XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_b,      togglebar,      {0} },
+	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY|ControlMask,           XK_i,      incnmaster,     {.i = +1 } },
