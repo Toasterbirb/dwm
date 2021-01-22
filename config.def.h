@@ -48,20 +48,20 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "[M]",      monocle },
-	{ "[@]",      spiral },
-	{ "[\\]",     dwindle },
-	{ "H[]",      deck },
-	{ "TTT",      bstack },
-	{ "===",      bstackhoriz },
-	{ "HHH",      grid },
-	{ "###",      nrowgrid },
-	{ "---",      horizgrid },
-	{ ":::",      gaplessgrid },
-	{ "|M|",      centeredmaster },
-	{ ">M>",      centeredfloatingmaster },
-	{ "><>",      NULL },    /* no layout function means floating behavior */
+	{ "[]= [tile]",     					tile },    /* first entry is default */
+	{ "[M] [monocle]",      				monocle },
+	//{ "[@] [spiral]",    					spiral },
+	//{ "[\\] [dwindle]",     				dwindle },
+	//{ "H[] [deck]",      					deck },
+	{ "TTT [bstack]",      					bstack },
+	//{ "=== [bstack horiz]", 			    bstackhoriz },
+	{ "HHH [grid]",  					 	grid },
+	//{ "### [nrowgrid]",      				nrowgrid },
+	{ "--- [horizgrid]",      				horizgrid },
+	//{ "::: [gaplessgrid]",      			gaplessgrid },
+	{ "|M| [centeredmaster]",      			centeredmaster },
+	//{ ">M> [centeredfloatingmaster]",      	centeredfloatingmaster },
+	{ "><> [no layout]",      NULL },    /* no layout function means floating behavior */
 	{ NULL,       NULL },
 };
 
