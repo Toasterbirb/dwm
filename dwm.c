@@ -186,6 +186,8 @@ static void detachstack(Client *c);
 static Monitor *dirtomon(int dir);
 static void drawbar(Monitor *m);
 static void drawbars(void);
+static void enqueue(Client *c);
+static void enqueuestack(Client *c);
 static void enternotify(XEvent *e);
 static void expose(XEvent *e);
 static void focus(Client *c);
@@ -217,6 +219,7 @@ static void resize(Client *c, int x, int y, int w, int h, int interact);
 static void resizeclient(Client *c, int x, int y, int w, int h);
 static void resizemouse(const Arg *arg);
 static void restack(Monitor *m);
+static void rotatestack(const Arg *arg);
 static void run(void);
 static void scan(void);
 static int sendevent(Client *c, Atom proto);
@@ -261,7 +264,8 @@ static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void xrdb(const Arg *arg);
 static void zoom(const Arg *arg);
-static void logging(char* message);
+//static void logging(char* message);
+static void logging(int message);
 
 /* variables */
 static const char broken[] = "broken";
@@ -809,6 +813,29 @@ drawbars(void)
 }
 
 void
+enqueue(Client *c)
+{
+   Client *l;
+   for (l = c->mon->clients; l && l->next; l = l->next);
+   if (l) {
+       l->next = c;
+       c->next = NULL;
+   }
+}
+
+void
+enqueuestack(Client *c)
+{                                                       
+   Client *l;                                           
+   for (l = c->mon->stack; l && l->snext; l = l->snext);
+   if (l) {                                             
+       l->snext = c;                                    
+       c->snext = NULL;                                 
+   }                                                    
+}                                                       
+
+
+void
 enternotify(XEvent *e)
 {
 	Client *c;
@@ -840,6 +867,8 @@ expose(XEvent *e)
 void
 focus(Client *c)
 {
+	logging(nmaster);
+
 	if (!c || !ISVISIBLE(c))
 		for (c = selmon->stack; c && !ISVISIBLE(c); c = c->snext);
 	if (selmon->sel && selmon->sel != c)
@@ -1457,6 +1486,40 @@ restack(Monitor *m)
 	}
 	XSync(dpy, False);
 	while (XCheckMaskEvent(dpy, EnterWindowMask, &ev));
+}
+
+void
+rotatestack(const Arg *arg)
+{
+   Client *c = NULL, *f;
+
+   if (!selmon->sel)
+       return;
+   f = selmon->sel;
+   if (arg->i > 0) {
+       for (c = nexttiled(selmon->clients); c && nexttiled(c->next); c = nexttiled(c->next));
+       if (c){
+           detach(c);
+           attach(c);
+           detachstack(c);
+           attachstack(c);
+       }                                                                                     
+   } else {                                                                                  
+       if ((c = nexttiled(selmon->clients))){                                                
+           detach(c);                                                                        
+           enqueue(c);                                                                       
+           detachstack(c);                                                                   
+           enqueuestack(c);                                                                  
+       }                                                                                     
+   }                                                                                         
+   if (c){                                                                                   
+       arrange(selmon);                                                                      
+       //unfocus(f, 1);                                                                      
+
+	   /* Focus to master when rotating instead of f */
+       focus(0);
+       restack(selmon); 
+   }
 }
 
 void
@@ -2251,11 +2314,20 @@ main(int argc, char *argv[])
 	return EXIT_SUCCESS;
 }
 
+//void
+//logging(char* message)
+//{
+//	FILE *fp;
+//	fp = fopen("log.txt", "a");
+//	fprintf(fp, "%s\n", message);
+//	fclose(fp);
+//}
+
 void
-logging(char* message)
+logging(int message)
 {
 	FILE *fp;
 	fp = fopen("log.txt", "a");
-	fprintf(fp, "%s\n", message);
+	fprintf(fp, "%d\n", message);
 	fclose(fp);
 }
