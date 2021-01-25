@@ -1514,7 +1514,7 @@ rotatestack(const Arg *arg)
    }                                                                                         
    if (c){                                                                                   
        arrange(selmon);                                                                      
-       //unfocus(f, 1);                                                                      
+       unfocus(f, 1);                                                                      
 
 	   /* Focus to master when rotating instead of f */
        focus(0);
