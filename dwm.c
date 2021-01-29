@@ -2327,7 +2327,7 @@ logInt(int value)
 {
 	FILE *fp;
 	fp = fopen("log.txt", "a");
-	fprintf(fp, "%d\n", message);
-	fprintf(stderr, "Log int: %d\n", message);
+	fprintf(fp, "%d\n", value);
+	fprintf(stderr, "Log int: %d\n", value);
 	fclose(fp);
 }
