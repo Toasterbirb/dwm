@@ -2318,6 +2318,7 @@ logString(char* message)
 	FILE *fp;
 	fp = fopen("log.txt", "a");
 	fprintf(fp, "%s\n", message);
+	fprintf(stderr, "Log str: %s\n", message);
 	fclose(fp);
 }
 
@@ -2327,5 +2328,6 @@ logInt(int value)
 	FILE *fp;
 	fp = fopen("log.txt", "a");
 	fprintf(fp, "%d\n", message);
+	fprintf(stderr, "Log int: %d\n", message);
 	fclose(fp);
 }
