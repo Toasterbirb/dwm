@@ -264,8 +264,8 @@ static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void xrdb(const Arg *arg);
 static void zoom(const Arg *arg);
-//static void logging(char* message);
-static void logging(int message);
+static void logString(char* message);
+static void logInt(int value);
 
 /* variables */
 static const char broken[] = "broken";
@@ -867,8 +867,6 @@ expose(XEvent *e)
 void
 focus(Client *c)
 {
-	logging(nmaster);
-
 	if (!c || !ISVISIBLE(c))
 		for (c = selmon->stack; c && !ISVISIBLE(c); c = c->snext);
 	if (selmon->sel && selmon->sel != c)
@@ -2314,17 +2312,17 @@ main(int argc, char *argv[])
 	return EXIT_SUCCESS;
 }
 
-//void
-//logging(char* message)
-//{
-//	FILE *fp;
-//	fp = fopen("log.txt", "a");
-//	fprintf(fp, "%s\n", message);
-//	fclose(fp);
-//}
+void
+logString(char* message)
+{
+	FILE *fp;
+	fp = fopen("log.txt", "a");
+	fprintf(fp, "%s\n", message);
+	fclose(fp);
+}
 
 void
-logging(int message)
+logInt(int value)
 {
 	FILE *fp;
 	fp = fopen("log.txt", "a");
