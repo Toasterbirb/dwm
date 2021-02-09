@@ -9,7 +9,7 @@ then
 	
 	[[ $artist != "" ]] && delimiter=" - " || delimiter=""
 
-	echo "𝅘𝅥𝅯 ${artist}${delimiter}${title} |"
+	echo " 𝅘𝅥𝅯 ${artist}${delimiter}${title} |"
 else
 	echo ""
 fi
