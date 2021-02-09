@@ -759,6 +759,7 @@ drawbar(Monitor *m)
 	int x, w, tw = 0;
 	int boxs = drw->fonts->h / 9;
 	int boxw = drw->fonts->h / 6 + 2;
+	logInt(drw->fonts->h);
 	unsigned int i, occ = 0, urg = 0;
 	Client *c;
 
@@ -776,19 +777,22 @@ drawbar(Monitor *m)
 	}
 	x = 0;
 	for (i = 0; i < LENGTH(tags); i++) {
-		w = TEXTW(tags[i]);
-		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
-		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
+		w = TEXTW(tags[i]) + tagWidthExtra; /* Get text (font) width of the current tag and use that as tag width */
+		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]); /* Change colorscheme */
+
+		/* lrpad / 2 centers the tag text. since tagWidthExtra changes the size, it needs to be
+		 * counted for*/
+		drw_text(drw, x, 0, w, bh, lrpad / 2 + (tagWidthExtra / 2), tags[i], urg & 1 << i); /* Add tag names from 1 to 9 */
 		if (occ & 1 << i)
-			drw_rect(drw, x + boxw, 0, w - ( 2 * boxw + 1), 3, /* 3 kohdalla alkuperäinen muuttuja oli boxw */
+			drw_rect(drw, x + boxw, 0, w - ( 2 * boxw + 1), boxw - 1, /* Draw tag indicators */
 			    m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
     			urg & 1 << i);
 
 		x += w;
 	}
 	w = blw = TEXTW(m->ltsymbol);
-	drw_setscheme(drw, scheme[SchemeNorm]);
-	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
+	drw_setscheme(drw, scheme[SchemeNorm]); /* Change color scheme */
+	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0); /* Window title bar */
 
 	if ((w = m->ww - tw - x) > bh) {
 		if (m->sel) {
