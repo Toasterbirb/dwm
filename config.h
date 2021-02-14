@@ -56,7 +56,7 @@ static const Layout layouts[] = {
 	//{ "H[]", 		deck },
 	{ "TTT",   		bstack },
 	//{ "===", 		bstackhoriz },
-	{ "HHH",  		grid },
+	//{ "HHH",  		grid },
 	//{ "###", 		nrowgrid },
 	{ "---",   		horizgrid },
 	//{ ":::",     	gaplessgrid },
