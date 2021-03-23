@@ -10,11 +10,12 @@ static const unsigned int gappov    = 10;       /* vert outer gap between window
 static       int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const int user_bh            = 0;        /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
-static const char *fonts[]          = { "monospace:size=10" };
-static const char dmenufont[]       = "monospace:size=10";
+static const int tagWidthExtra 		= 4; 		/* Add extra width to tags. 0 means default width (16). */
+static const int user_bh            = 24;       /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
+static const char *fonts[]          = { "mononoki:size=12" };
+static const char dmenufont[]       = "mononoki:size=14";
 static char normbgcolor[]           = "#3b4252";
-static char normbordercolor[]       = "#4c566a";
+static char normbordercolor[]       = "#2E3440";
 static char normfgcolor[]           = "#d8dee9";
 static char selfgcolor[]            = "#e5e9f0";
 static char selbordercolor[]        = "#bf616a";
@@ -55,7 +56,7 @@ static const Layout layouts[] = {
 	//{ "H[]", 		deck },
 	{ "TTT",   		bstack },
 	//{ "===", 		bstackhoriz },
-	{ "HHH",  		grid },
+	//{ "HHH",  		grid },
 	//{ "###", 		nrowgrid },
 	{ "---",   		horizgrid },
 	//{ ":::",     	gaplessgrid },
@@ -79,7 +80,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-hp", "firefox;surf", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
-static const char *termcmd[]  = { "termite", NULL };
+static const char *termcmd[]  = { "alacritty", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
