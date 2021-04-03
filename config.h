@@ -17,9 +17,9 @@ static const char dmenufont[]       = "mononoki:size=14";
 static char normbgcolor[]           = "#3b4252";
 static char normbordercolor[]       = "#2E3440";
 static char normfgcolor[]           = "#d8dee9";
-static char selfgcolor[]            = "#e5e9f0";
-static char selbordercolor[]        = "#bf616a";
-static char selbgcolor[]            = "#bf616a";
+static char selfgcolor[]            = "#2e3440";
+static char selbordercolor[]        = "#81a1c1";
+static char selbgcolor[]            = "#a3be8c";
 static char *colors[][3] = {
        /*               fg           bg           border   */
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
@@ -34,9 +34,10 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            0,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	/* class      instance    title       										tags mask     isfloating   monitor */
+	{ "Gimp",     NULL,       NULL,       										0,            0,           -1 },
+	{ "Firefox",  NULL,       NULL,       										1 << 8,       0,           -1 },
+	{ NULL,       NULL,       "Steam Guard - Computer Authorization Required",  0, 			  1, 		   -1 },
 };
 
 /* layout(s) */
@@ -51,7 +52,7 @@ static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",   		tile },    /* first entry is default */
 	{ "[M]",   		monocle },
-	//{ "[@]", 		spiral },
+	{ "[@]", 		spiral },
 	//{ "[\\]",		dwindle },
 	//{ "H[]", 		deck },
 	{ "TTT",   		bstack },
