@@ -20,20 +20,20 @@ static char normfgcolor[]           = "#d8dee9";
 static char selfgcolor[]            = "#2e3440";
 static char selbordercolor[]        = "#81a1c1";
 static char selbgcolor[]            = "#a3be8c";
-static char col_gray1[] 			= "#94A093";
-static char col_gray3[] 			= "#2e3440";
-static char col_gray4[] 			= "#000000";
-static char col_cyan[] 				= "#a3be8c";
+static char col_red[] 				= "#BF616A";
+static char col_blue[] 				= "#5E81AC";
+static char col_cyan[] 				= "#B48EAD";
+static char col_dark[]  			= "#4C566A";
 
 static char *colors[][3] = {
        	/*               	fg           		bg           	border   */
        	[SchemeNorm] 		= { normfgcolor, 	normbgcolor, 	normbordercolor },
        	[SchemeSel]  		= { selfgcolor,  	selbgcolor,  	selbordercolor  },
-		[SchemeStatus]  	= { col_gray3, 		col_gray1,  	"#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
-		[SchemeTagsSel]  	= { col_gray4, 		col_cyan,  		"#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
-		[SchemeTagsNorm]  	= { col_gray3, 		col_gray1,  	"#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-		[SchemeInfoSel]  	= { col_gray4, 		col_cyan,  		"#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
-		[SchemeInfoNorm]  	= { col_gray3, 		col_gray1,  	"#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
+		[SchemeStatus]  	= { normfgcolor, 	selfgcolor, 	"#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
+		[SchemeTagsSel]  	= { selfgcolor,		selbgcolor, 	"#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
+		[SchemeTagsNorm]  	= { normfgcolor,	col_dark,  		"#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
+		[SchemeInfoSel]  	= { selfgcolor,		selbgcolor,  		"#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
+		[SchemeInfoNorm]  	= { normfgcolor,	col_dark,  	"#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 
 };
 
