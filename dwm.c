@@ -2367,6 +2367,53 @@ resetcolors()
 		scheme[i] = drw_scm_create(drw, colors[i], 3);
 }
 
+typedef struct {
+	const char* name;
+	int* var;
+	void (*set)(int *var, char* str);
+} ConfigVar;
+
+void
+set_var_int(int* var, char* str)
+{
+	*var = atoi(str);
+}
+
+void
+set_var_color(int* var, char* str)
+{
+	if (strlen(str) != 7) return;
+	strncpy((char *)(var), str, 7);
+}
+
+static const ConfigVar config_vars[] = {
+	{ "borderpx", 				&borderpx, 						set_var_int },
+	{ "snap", 					&snap, 							set_var_int },
+	{ "gap_inner_horizontal", 	&gappih, 						set_var_int },
+	{ "gap_inner_vertical", 	&gappiv, 						set_var_int },
+	{ "gap_outer_horizontal", 	&gappoh, 						set_var_int },
+	{ "gap_outer_vertical", 	&gappov, 						set_var_int },
+	{ "smartgaps", 				&smartgaps, 					set_var_int },
+	{ "barshadowheight", 		&barbottom, 					set_var_int },
+	{ "bartextheightoffset", 	&bartextheightoffset, 			set_var_int },
+	{ "showbar", 				&showbar, 						set_var_int },
+	{ "topbar", 				&topbar, 						set_var_int },
+	{ "tagwidthextra", 			&tagWidthExtra, 				set_var_int },
+	{ "enable3dbar", 			&enable3dbar, 					set_var_int },
+	{ "normbgcolor", 			(int *)(&normbgcolor[0]), 		set_var_color },
+	{ "normbordercolor", 		(int *)(&normbordercolor[0]), 	set_var_color },
+	{ "selbordercolor", 		(int *)(&selbordercolor[0]), 	set_var_color },
+	{ "normfgcolor", 			(int *)(&normfgcolor[0]), 		set_var_color },
+	{ "selfgcolor", 			(int *)(&selfgcolor[0]), 		set_var_color },
+	{ "selbgcolor", 			(int *)(&selbgcolor[0]), 		set_var_color },
+	{ "col_red", 				(int *)(&col_red[0]), 			set_var_color },
+	{ "col_blue", 				(int *)(&col_blue[0]), 			set_var_color },
+	{ "col_cyan", 				(int *)(&col_cyan[0]), 			set_var_color },
+	{ "col_dark", 				(int *)(&col_dark[0]), 			set_var_color },
+	{ "normfgshadowcolor", 		(int *)(&normfgshadowcolor[0]),	set_var_color },
+	{ "selfgshadowcolor", 		(int *)(&selfgshadowcolor[0]), 	set_var_color },
+};
+
 void
 applysetting(char* key, char* value)
 {
@@ -2379,97 +2426,72 @@ applysetting(char* key, char* value)
 	}
 
 	/* Appearance */
-	if(!strcmp("borderpx", key)) /* border size */
-		borderpx = atoi(value);
-	else if(!strcmp("snap", key)) /* snapping distance */
-		snap = atoi(value);
-	else if(!strcmp("gap_inner_horizontal", key)) /* horiz inner gap between windows */
-		gappih = atoi(value);
-	else if(!strcmp("gap_inner_vertical", key)) /* vert inner gap between windows */
-		gappiv = atoi(value);
-	else if(!strcmp("gap_outer_horizontal", key)) /* horiz outer gap between windows and screen edge */
-		gappoh = atoi(value);
-	else if(!strcmp("gap_outer_vertical", key)) /* vert outer gap between windows and screen edge */
-		gappov = atoi(value);
-	else if(!strcmp("smartgaps", key)) /* smart gaps */
-		smartgaps = atoi(value);
-	//else if(!strcmp("barheight", key)) /* statusbar height */
-	//	barheight = atoi(value);
-	else if(!strcmp("barshadowheight", key)) /* status bar shadow size */
-		barbottom = atoi(value);
-	else if(!strcmp("bartextheightoffset", key)) /* vertical offset for statusbar text */
-		bartextheightoffset = atoi(value);
-	else if(!strcmp("showbar", key)) /* show/hide the statusbar */
-		showbar = atoi(value);
-	else if(!strcmp("topbar", key)) /* 0 bottom bar, 1 = top bar */
-		topbar = atoi(value);
-	else if(!strcmp("tagwidthextra", key)) /* Add some extra width to tags. 0 = 16px */
-		tagWidthExtra = atoi(value);
-	//else if(!strcmp("barheight", key)) /* Statusbar height */
-	//	user_bh = atoi(value);
-	else if(!strcmp("enable3dbar", key)) /* Enable slight 3D effect for statusbar */
-		enable3dbar = atoi(value);
 
 	/* colors */
-	else if(!strcmp("normbgcolor", key)) /* normbgcolor */
-		strncpy(normbgcolor, value, strlen(value) - 1);
-	else if(!strcmp("normbordercolor", key)) /* normbordercolor */
-		strncpy(normbordercolor, value, strlen(value) - 1);
-	else if(!strcmp("selbordercolor", key)) /* selbordercolor */
-		strncpy(selbordercolor, value, strlen(value) - 1);
-	else if(!strcmp("normfgcolor", key)) /* normfgcolor */
-		strncpy(normfgcolor, value, strlen(value) - 1);
-	else if(!strcmp("selfgcolor", key)) /* selfgcolor */
-		strncpy(selfgcolor, value, strlen(value) - 1);
-	else if(!strcmp("selbgcolor", key)) /* selbgcolor */
-		strncpy(selbgcolor, value, strlen(value) - 1);
-	else if(!strcmp("col_red", key)) /* col_red */
-		strncpy(col_red, value, strlen(value) - 1);
-	else if(!strcmp("col_blue", key)) /* col_blue */
-		strncpy(col_blue, value, strlen(value) - 1);
-	else if(!strcmp("col_cyan", key)) /* col_cyan */
-		strncpy(col_cyan, value, strlen(value) - 1);
-	else if(!strcmp("col_dark", key)) /* col_dark */
-		strncpy(col_dark, value, strlen(value) - 1);
-	else if(!strcmp("normfgshadowcolor", key)) /* normfgshadowcolor */
-		strncpy(normfgshadowcolor, value, strlen(value) - 1);
-	else if(!strcmp("selfgshadowcolor", key)) /* selfgshadowcolor */
-		strncpy(selfgshadowcolor, value, strlen(value) - 1);
 }
 
 void
 readconfig()
 {
 	FILE *fp;
-	char* line;
-	size_t len = 0;
-	ssize_t read;
-	char formattedBuffer[256];
-	
-
-	logString("Reading the configuration file...");
+	char buf[256];
 	fp = fopen(configPath, "r");
 
-	if (fp == NULL)
+	for (;;)
 	{
-		/* Something went wrong. Maybe the file doesn't exist? */
-		logString("Something went wrong while reading the config file...");
-	}
-	else
-	{
-		while ((read = getline(&line, &len, fp)) != -1) {
-			if (line[0] == '#' || line[0] == '\n')
-				continue;
+		char* ok = fgets(buf, LENGTH(buf), fp);
+		if (!ok) break;
+		int buf_len = strcspn(buf, "\n");
+		if (buf_len == 0) continue;
+		buf[buf_len] = 0; // trim newline
+		unsigned int i;
 
-			char* key = strtok(line, "=");
-			char* value = strtok(NULL, "=");
-			applysetting(key, value);
+		char* var_name = strtok(buf, "=");
+		for (i = 0; i < LENGTH(config_vars); i++)
+		{
+			if (strcmp(var_name, config_vars[i].name)) continue; // skip if no match found for the key
+			fprintf(stderr, "Key: %s\n", var_name);
+
+			char* value = strtok(NULL, buf); // get value for the key
+			if (!value) break; // bad format
+
+			fprintf(stderr, "Value: %s\n", value);
+			config_vars[i].set(config_vars[i].var, value);
+			break;
 		}
-
-		/* Close the file */
-		logString("Closing the file...");
-		fclose(fp);
 	}
+
+	fclose(fp);
+
+	//char* line;
+	//size_t len = 0;
+	//ssize_t read;
+	//char formattedBuffer[256];
+	//
+
+	//logString("Reading the configuration file...");
+	//fp = fopen(configPath, "r");
+
+	//if (fp == NULL)
+	//{
+	//	/* Something went wrong. Maybe the file doesn't exist? */
+	//	logString("Something went wrong while reading the config file...");
+	//}
+	//else
+	//{
+	//	while ((read = getline(&line, &len, fp)) != -1) {
+	//		if (line[0] == '#' || line[0] == '\n')
+	//			continue;
+
+	//		char* key = strtok(line, "=");
+	//		char* value = strtok(NULL, "=");
+	//		applysetting(key, value);
+	//	}
+
+	//	/* Close the file */
+	//	logString("Closing the file...");
+	//	fclose(fp);
+	//}
 
 	resetcolors();
 	focus(NULL);

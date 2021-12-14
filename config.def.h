@@ -4,15 +4,15 @@
 static const char* configPath 		= "/home/toasterbirb/.config/dde/dwm.conf";
 
 /* appearance */
-static unsigned int borderpx  = 3;        /* border pixel of windows */
-static unsigned int snap      = 32;       /* snap pixel */
-static unsigned int gappih    = 10;       /* horiz inner gap between windows */
-static unsigned int gappiv    = 10;       /* vert inner gap between windows */
-static unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
-static unsigned int gappov    = 10;       /* vert outer gap between windows and screen edge */
+static int borderpx  = 3;        /* border pixel of windows */
+static int snap      = 32;       /* snap pixel */
+static int gappih    = 10;       /* horiz inner gap between windows */
+static int gappiv    = 10;       /* vert inner gap between windows */
+static int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
+static int gappov    = 10;       /* vert outer gap between windows and screen edge */
 static int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
-static unsigned int barheight = 0; 		/* 0 means automatic */
-static unsigned int barbottom = 4; 		/* size of the small rect below the bar to create a 3D effect */
+static int barheight = 0; 		/* 0 means automatic */
+static int barbottom = 4; 		/* size of the small rect below the bar to create a 3D effect */
 static int bartextheightoffset = 0; 		/* vertical offset for the dwm bar text */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
