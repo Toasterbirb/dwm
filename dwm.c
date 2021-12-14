@@ -76,7 +76,7 @@
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel, SchemeStatus, SchemeTagsSel, SchemeTagsNorm, SchemeInfoSel, SchemeInfoNorm }; /* color schemes */
+enum { SchemeNorm, SchemeSel, SchemeStatus, SchemeTagsSel, SchemeTagsNorm, SchemeInfoSel, SchemeInfoNorm, SchemeNormShadow, SchemeSelShadow }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
@@ -266,6 +266,7 @@ static void xrdb(const Arg *arg);
 static void zoom(const Arg *arg);
 static void logString(char* message);
 static void logInt(int value);
+static void readconfig();
 
 /* variables */
 static const char broken[] = "broken";
@@ -757,8 +758,8 @@ void
 drawbar(Monitor *m)
 {
 	int x, w, tw = 0;
-	int boxs = drw->fonts->h / 9;
-	int boxw = drw->fonts->h / 6 + 2;
+	int boxs = drw->fonts->h / 9; 		/* Client indicator offset from the top left corner of the tag block */
+	int boxw = drw->fonts->h / 6 + 2;	/* Client indicator width */
 	unsigned int i, occ = 0, urg = 0;
 	Client *c;
 
@@ -767,6 +768,12 @@ drawbar(Monitor *m)
 		drw_setscheme(drw, scheme[SchemeStatus]);
 		tw = TEXTW(stext) - lrpad + 2; /* 2px right padding */
 		drw_text(drw, m->ww - tw, 0, tw, bh, 0, stext, 0);
+
+		if (enable3dbar)
+		{
+			drw_setscheme(drw, scheme[SchemeNormShadow]);
+			drw_rect(drw, m->ww - sw, user_bh - barbottom, sw + lrpad / 2, barbottom + bartextheightoffset, 1, 0); /* add shadow bar for status */
+		}
 	}
 
 	for (c = m->clients; c; c = c->next) {
@@ -782,10 +789,18 @@ drawbar(Monitor *m)
 		/* lrpad / 2 centers the tag text. since tagWidthExtra changes the size, it needs to be
 		 * counted for*/
 		drw_text(drw, x, 0, w, bh, lrpad / 2 + (tagWidthExtra / 2), tags[i], urg & 1 << i); /* Add tag names from 1 to 9 */
+		if (enable3dbar)
+		{
+			drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSelShadow : SchemeNormShadow]);
+			drw_rect(drw, x, user_bh - barbottom, w, barbottom, 1, 0); /* add shadow bar to tags */
+		}
 		if (occ & 1 << i)
+		{
+			drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeNorm : SchemeSel]);
 			drw_rect(drw, x + boxw, 0, w - ( 2 * boxw + 1), boxw - 1, /* Draw tag indicators */
 			    m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
     			urg & 1 << i);
+		}
 
 		x += w;
 	}
@@ -793,15 +808,34 @@ drawbar(Monitor *m)
 	drw_setscheme(drw, scheme[SchemeTagsNorm]);
 	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0); /* Window title bar */
 
+	if (enable3dbar)
+	{
+		drw_setscheme(drw, scheme[SchemeNormShadow]);
+		drw_rect(drw, x - w, user_bh - barbottom, w, barbottom, 1, 0); /* add shadow bar for tiling indicator */
+	}
+
 	if ((w = m->ww - tw - x) > bh) {
 		if (m->sel) {
 			drw_setscheme(drw, scheme[m == selmon ? SchemeInfoSel : SchemeInfoNorm]);
 			drw_text(drw, x, 0, w, bh, lrpad / 2, m->sel->name, 0);
+
+			if (enable3dbar)
+			{
+				drw_setscheme(drw, scheme[m == selmon ? SchemeSelShadow : SchemeNormShadow]);
+				drw_rect(drw, x, user_bh - barbottom, w, barbottom, 1, 0); /* add shadow bar for window title */
+			}
+
 			if (m->sel->isfloating)
 				drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
 		} else {
 			drw_setscheme(drw, scheme[SchemeInfoNorm]);
 			drw_rect(drw, x, 0, w, bh, 1, 1);
+
+			if (enable3dbar)
+			{
+				drw_setscheme(drw, scheme[SchemeNormShadow]);
+				drw_rect(drw, x, user_bh - barbottom, w, barbottom, 1, 0); /* add shadow bar for window title */
+			}
 		}
 	}
 	drw_map(drw, m->barwin, 0, 0, m->ww, bh);
@@ -2142,7 +2176,7 @@ void
 updatestatus(void)
 {
 	if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
-		strcpy(stext, "dwm-"VERSION);
+		strcpy(stext, "dde-"VERSION);
 	drawbar(selmon);
 }
 
@@ -2289,6 +2323,179 @@ zoom(const Arg *arg)
 	pop(c);
 }
 
+void
+resetcolors()
+{
+	/* SchemeNorm */
+	colors[SchemeNorm][0] = normfgcolor;
+	colors[SchemeNorm][1] = normbgcolor;
+	colors[SchemeNorm][2] = normbordercolor;
+
+	/* SchemeSel */
+	colors[SchemeSel][0] = selfgcolor;
+	colors[SchemeSel][1] = selbgcolor;
+	colors[SchemeSel][2] = selbordercolor;
+
+	/* SchemeStatus */
+	colors[SchemeStatus][0] = normfgcolor;
+	colors[SchemeStatus][1] = col_dark;
+
+	/* SchemeTagsSel */
+	colors[SchemeTagsSel][0] = selfgcolor;
+	colors[SchemeTagsSel][1] = selbgcolor;
+
+	/* SchemeTagsNorm */
+	colors[SchemeTagsNorm][0] = normfgcolor;
+	colors[SchemeTagsNorm][1] = col_dark;
+
+	/* SchemeInfoSel */
+	colors[SchemeInfoSel][0] = selfgcolor;
+	colors[SchemeInfoSel][1] = selbgcolor;
+
+	/* SchemeInfoNorm */
+	colors[SchemeInfoNorm][0] = normfgcolor;
+	colors[SchemeInfoNorm][1] = col_dark;
+
+	/* SchemeNormShadow */
+	colors[SchemeNormShadow][0] = normfgshadowcolor;
+
+	/* SchemeSelShadow */
+	colors[SchemeSelShadow][0] = selfgshadowcolor;
+
+	int i;
+	for (i = 0; i < LENGTH(colors); i++)
+		scheme[i] = drw_scm_create(drw, colors[i], 3);
+}
+
+void
+applysetting(char* key, char* value)
+{
+	fprintf(stderr, "Key: %s; Value: %s", key, value);
+
+	if (value[0] == '#' && strlen(value) > 8)
+	{
+		fprintf(stderr, "Invalid HEX value: %s", value);
+		return;
+	}
+
+	/* Appearance */
+	if(!strcmp("borderpx", key)) /* border size */
+		borderpx = atoi(value);
+	else if(!strcmp("snap", key)) /* snapping distance */
+		snap = atoi(value);
+	else if(!strcmp("gap_inner_horizontal", key)) /* horiz inner gap between windows */
+		gappih = atoi(value);
+	else if(!strcmp("gap_inner_vertical", key)) /* vert inner gap between windows */
+		gappiv = atoi(value);
+	else if(!strcmp("gap_outer_horizontal", key)) /* horiz outer gap between windows and screen edge */
+		gappoh = atoi(value);
+	else if(!strcmp("gap_outer_vertical", key)) /* vert outer gap between windows and screen edge */
+		gappov = atoi(value);
+	else if(!strcmp("smartgaps", key)) /* smart gaps */
+		smartgaps = atoi(value);
+	//else if(!strcmp("barheight", key)) /* statusbar height */
+	//	barheight = atoi(value);
+	else if(!strcmp("barshadowheight", key)) /* status bar shadow size */
+		barbottom = atoi(value);
+	else if(!strcmp("bartextheightoffset", key)) /* vertical offset for statusbar text */
+		bartextheightoffset = atoi(value);
+	else if(!strcmp("showbar", key)) /* show/hide the statusbar */
+		showbar = atoi(value);
+	else if(!strcmp("topbar", key)) /* 0 bottom bar, 1 = top bar */
+		topbar = atoi(value);
+	else if(!strcmp("tagwidthextra", key)) /* Add some extra width to tags. 0 = 16px */
+		tagWidthExtra = atoi(value);
+	//else if(!strcmp("barheight", key)) /* Statusbar height */
+	//	user_bh = atoi(value);
+	else if(!strcmp("enable3dbar", key)) /* Enable slight 3D effect for statusbar */
+		enable3dbar = atoi(value);
+
+	/* colors */
+	else if(!strcmp("normbgcolor", key)) /* normbgcolor */
+		strncpy(normbgcolor, value, strlen(value) - 1);
+	else if(!strcmp("normbordercolor", key)) /* normbordercolor */
+		strncpy(normbordercolor, value, strlen(value) - 1);
+	else if(!strcmp("selbordercolor", key)) /* selbordercolor */
+		strncpy(selbordercolor, value, strlen(value) - 1);
+	else if(!strcmp("normfgcolor", key)) /* normfgcolor */
+		strncpy(normfgcolor, value, strlen(value) - 1);
+	else if(!strcmp("selfgcolor", key)) /* selfgcolor */
+		strncpy(selfgcolor, value, strlen(value) - 1);
+	else if(!strcmp("selbgcolor", key)) /* selbgcolor */
+		strncpy(selbgcolor, value, strlen(value) - 1);
+	else if(!strcmp("col_red", key)) /* col_red */
+		strncpy(col_red, value, strlen(value) - 1);
+	else if(!strcmp("col_blue", key)) /* col_blue */
+		strncpy(col_blue, value, strlen(value) - 1);
+	else if(!strcmp("col_cyan", key)) /* col_cyan */
+		strncpy(col_cyan, value, strlen(value) - 1);
+	else if(!strcmp("col_dark", key)) /* col_dark */
+		strncpy(col_dark, value, strlen(value) - 1);
+	else if(!strcmp("normfgshadowcolor", key)) /* normfgshadowcolor */
+		strncpy(normfgshadowcolor, value, strlen(value) - 1);
+	else if(!strcmp("selfgshadowcolor", key)) /* selfgshadowcolor */
+		strncpy(selfgshadowcolor, value, strlen(value) - 1);
+}
+
+void
+readconfig()
+{
+	FILE *fp;
+	char* line;
+	size_t len = 0;
+	ssize_t read;
+	char formattedBuffer[256];
+	
+
+	logString("Reading the configuration file...");
+	fp = fopen(configPath, "r");
+
+	if (fp == NULL)
+	{
+		/* Something went wrong. Maybe the file doesn't exist? */
+		logString("Something went wrong while reading the config file...");
+	}
+	else
+	{
+		while ((read = getline(&line, &len, fp)) != -1) {
+			if (line[0] == '#' || line[0] == '\n')
+				continue;
+
+			char* key = strtok(line, "=");
+			char* value = strtok(NULL, "=");
+			applysetting(key, value);
+		}
+
+		/* Close the file */
+		logString("Closing the file...");
+		fclose(fp);
+	}
+
+	resetcolors();
+	focus(NULL);
+	arrange(NULL);
+}
+
+void
+logString(char* message)
+{
+	FILE *fp;
+	fp = fopen("log.txt", "a");
+	fprintf(fp, "%s\n", message);
+	fprintf(stderr, "Log: %s\n", message);
+	fclose(fp);
+}
+
+void
+logInt(int value)
+{
+	FILE *fp;
+	fp = fopen("log.txt", "a");
+	fprintf(fp, "%d\n", value);
+	fprintf(stderr, "Log: %d\n", value);
+	fclose(fp);
+}
+
 int
 main(int argc, char *argv[])
 {
@@ -2309,29 +2516,10 @@ main(int argc, char *argv[])
 		die("pledge");
 #endif /* __OpenBSD__ */
 	scan();
+	readconfig();
 	run();
 	if(restart) execvp(argv[0], argv);
 	cleanup();
 	XCloseDisplay(dpy);
 	return EXIT_SUCCESS;
-}
-
-void
-logString(char* message)
-{
-	FILE *fp;
-	fp = fopen("log.txt", "a");
-	fprintf(fp, "%s\n", message);
-	fprintf(stderr, "Log str: %s\n", message);
-	fclose(fp);
-}
-
-void
-logInt(int value)
-{
-	FILE *fp;
-	fp = fopen("log.txt", "a");
-	fprintf(fp, "%d\n", value);
-	fprintf(stderr, "Log int: %d\n", value);
-	fclose(fp);
 }

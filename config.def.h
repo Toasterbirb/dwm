@@ -1,39 +1,54 @@
 /* See LICENSE file for copyright and license details. */
 
+/* config file */
+static const char* configPath 		= "/home/toasterbirb/.config/dde/dwm.conf";
+
 /* appearance */
-static const unsigned int borderpx  = 3;        /* border pixel of windows */
-static const unsigned int snap      = 32;       /* snap pixel */
-static const unsigned int gappih    = 10;       /* horiz inner gap between windows */
-static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
-static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
-static const unsigned int gappov    = 10;       /* vert outer gap between windows and screen edge */
-static       int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
-static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 1;        /* 0 means bottom bar */
-static const int tagWidthExtra 		= 4; 		/* Add extra width to tags. 0 means default width (16). */
-static const int user_bh            = 24;       /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
-static const char *fonts[]          = { "mononoki:size=12" };
-static const char dmenufont[]       = "mononoki:size=14";
+static unsigned int borderpx  = 3;        /* border pixel of windows */
+static unsigned int snap      = 32;       /* snap pixel */
+static unsigned int gappih    = 10;       /* horiz inner gap between windows */
+static unsigned int gappiv    = 10;       /* vert inner gap between windows */
+static unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
+static unsigned int gappov    = 10;       /* vert outer gap between windows and screen edge */
+static int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
+static unsigned int barheight = 0; 		/* 0 means automatic */
+static unsigned int barbottom = 4; 		/* size of the small rect below the bar to create a 3D effect */
+static int bartextheightoffset = 0; 		/* vertical offset for the dwm bar text */
+static int showbar            = 1;        /* 0 means no bar */
+static int topbar             = 1;        /* 0 means bottom bar */
+static int tagWidthExtra 		= 4; 		/* Add extra width to tags. 0 means default width (16). */
+static int user_bh            = 28;       /* dwmbar height */
+static int enable3dbar 		= 1;
+
+/* fonts */
+static const char *fonts[]          = { "mononoki:size=13" };
+static const char dmenufont[]       = "mononoki:size=15";
+
+/* colors */
 static char normbgcolor[]           = "#3b4252";
-static char normbordercolor[]       = "#2E3440";
+static char normbordercolor[]       = "#2A2139";
+static char selbordercolor[]        = "#EDC0FF";
 static char normfgcolor[]           = "#d8dee9";
 static char selfgcolor[]            = "#2e3440";
-static char selbordercolor[]        = "#81a1c1";
-static char selbgcolor[]            = "#a3be8c";
+static char selbgcolor[]            = "#b48ead"; 	/* Top bar background when there's a window open */
 static char col_red[] 				= "#BF616A";
 static char col_blue[] 				= "#5E81AC";
 static char col_cyan[] 				= "#B48EAD";
-static char col_dark[]  			= "#4C566A";
+static char col_dark[]  			= "#3B4252";
+static char normfgshadowcolor[] = "#363B48";
+static char selfgshadowcolor[]  = "#91738C";
 
 static char *colors[][3] = {
        	/*               	fg           		bg           	border   */
        	[SchemeNorm] 		= { normfgcolor, 	normbgcolor, 	normbordercolor },
        	[SchemeSel]  		= { selfgcolor,  	selbgcolor,  	selbordercolor  },
-		[SchemeStatus]  	= { normfgcolor, 	selfgcolor, 	"#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
+		[SchemeStatus]  	= { normfgcolor, 	col_dark, 	 	"#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
 		[SchemeTagsSel]  	= { selfgcolor,		selbgcolor, 	"#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
 		[SchemeTagsNorm]  	= { normfgcolor,	col_dark,  		"#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-		[SchemeInfoSel]  	= { selfgcolor,		selbgcolor,  		"#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
-		[SchemeInfoNorm]  	= { normfgcolor,	col_dark,  	"#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
+		[SchemeInfoSel]  	= { selfgcolor,		selbgcolor,  	"#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
+		[SchemeInfoNorm]  	= { normfgcolor,	col_dark,  		"#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
+		[SchemeNormShadow] 	= { normfgshadowcolor, "#000000", 	"#000000" },  // Shadow of the selected tag
+		[SchemeSelShadow] 	= { selfgshadowcolor, "#000000", 	"#000000" },  // Shadow of the selected tag
 
 };
 
@@ -147,7 +162,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 
-	{ MODKEY,                       XK_F5,     xrdb,           {.v = NULL } }, /* Reload Xresources */
+	//{ MODKEY,                       XK_F5,     xrdb,           {.v = NULL } }, /* Reload Xresources */
+	{ MODKEY,                       XK_F5,     readconfig,           {0} }, /* Reload the config file */
 
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
