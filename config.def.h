@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* config file */
-static const char* configPath 		= "/home/toasterbirb/.config/dde/dwm.conf";
+static const char* configPath 		= "/home/USER/.config/dde/dwm.conf";
 
 /* appearance */
 static int borderpx  = 3;        /* border pixel of windows */
