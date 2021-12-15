@@ -10,19 +10,19 @@ static int gappih    = 10;       /* horiz inner gap between windows */
 static int gappiv    = 10;       /* vert inner gap between windows */
 static int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
 static int gappov    = 10;       /* vert outer gap between windows and screen edge */
-static int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
+static int smartgaps = 0;        /* 1 means no outer gap when there is only one window */
 static int barheight = 0; 		/* 0 means automatic */
 static int barbottom = 4; 		/* size of the small rect below the bar to create a 3D effect */
 static int bartextheightoffset = 0; 		/* vertical offset for the dwm bar text */
-static int showbar            = 1;        /* 0 means no bar */
-static int topbar             = 1;        /* 0 means bottom bar */
-static int tagWidthExtra 		= 4; 		/* Add extra width to tags. 0 means default width (16). */
-static int user_bh            = 28;       /* dwmbar height */
+static int showbar         	= 1;        /* 0 means no bar */
+static int topbar          	= 1;        /* 0 means bottom bar */
+static int tagWidthExtra 	= 4; 		/* Add extra width to tags. 0 means default width (16). */
+static int user_bh       	= 28;       /* dwmbar height */
 static int enable3dbar 		= 1;
 
 /* fonts */
 static const char *fonts[]          = { "mononoki:size=13" };
-static const char dmenufont[]       = "mononoki:size=15";
+static const char dmenufont[]       = 	"mononoki:size=15";
 
 /* colors */
 static char normbgcolor[]           = "#3b4252";
@@ -35,8 +35,8 @@ static char col_red[] 				= "#BF616A";
 static char col_blue[] 				= "#5E81AC";
 static char col_cyan[] 				= "#B48EAD";
 static char col_dark[]  			= "#3B4252";
-static char normfgshadowcolor[] = "#363B48";
-static char selfgshadowcolor[]  = "#91738C";
+static char normfgshadowcolor[] 	= "#363B48";
+static char selfgshadowcolor[]  	= "#91738C";
 
 static char *colors[][3] = {
        	/*               	fg           		bg           	border   */
