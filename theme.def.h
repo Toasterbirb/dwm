@@ -18,7 +18,7 @@ static const char info_inactive_background[] = "#2c2e3e";
 
 /* statusbar */
 static const char status_text[]       = "#cddbf9";
-static const char status_background[] = "#3B4252";
+static const char status_background[] = "#2c2e3e";
 
 /* dmenu */
 static const char dmenu_text[]                = "#cddbf9";
