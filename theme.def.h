@@ -22,6 +22,6 @@ static const char status_background[] = "#2c2e3e";
 
 /* dmenu */
 static const char dmenu_text[]                = "#cddbf9";
-static const char dmenu_background[]          = "#3B4252";
-static const char dmenu_active_text[]         = "#3B4252";
+static const char dmenu_background[]          = "#2c2e3e";
+static const char dmenu_active_text[]         = "#2c2e3e";
 static const char dmenu_active_background[]   = "#b1dba4";
