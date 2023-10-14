@@ -9,3 +9,4 @@ This is my personal build of dwm with some patches applied and other modificatio
 - [steam](https://dwm.suckless.org/patches/steam/dwm-steam-6.2.diff)
 - [bar height](https://dwm.suckless.org/patches/bar_height/dwm-bar-height-6.2.diff)
 - [colorbar](https://dwm.suckless.org/patches/colorbar/dwm-colorbar-6.3.diff)
+- [fixborders](https://dwm.suckless.org/patches/alpha/dwm-fixborders-6.2.diff)
