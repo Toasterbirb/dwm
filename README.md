@@ -1,8 +1,13 @@
 # dwm
 
-This is my personal build of dwm with some patches applied and other modifications I deemed beneficial to my workflow.
+This is my personal fork of [dwm](https://dwm.suckless.org/) with some patches applied and other modifications I deemed beneficial to my workflow.
+
+The following patches are required in dmenu:
+- [xyw](https://tools.suckless.org/dmenu/patches/xyw/)
 
 ## Patches
+The following patches have been applied. Do note though that there might be some changes to the code included in the patches, so you might not find them word to word in this fork. However, you can expect *most* of the functionality included in these patches to be included in this fork.
+
 - [keycodes](https://dwm.suckless.org/patches/keycodes/dwm-keycodes-6.4.diff)
 - [vanitygaps](https://dwm.suckless.org/patches/vanitygaps/dwm-vanitygaps-20200610-f09418b.diff)
 - [actualfullscreen](https://dwm.suckless.org/patches/actualfullscreen/dwm-actualfullscreen-20211013-cb3f58a.diff)
