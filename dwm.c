@@ -1681,7 +1681,18 @@ void
 spawn(const Arg *arg)
 {
 	if (arg->v == dmenucmd)
+	{
+		/* Choose the correct monitor to spawn dmenu to */
 		dmenumon[0] = '0' + selmon->num;
+
+		/* Calculate offsets based on the current monitor dimensions */
+		snprintf(dmenu_x_offset_str, 5, "%d", selmon->mw / 2 - dmenu_width / 2 + dmenu_x_offset);
+		snprintf(dmenu_y_offset_str, 5, "%d", selmon->mh / 2 - dmenu_lines / 2 + dmenu_y_offset);
+
+		/* Convert the integer config variables to strings */
+		snprintf(dmenu_lines_str, 5, "%d", dmenu_lines);
+		snprintf(dmenu_width_str, 5, "%d", dmenu_width);
+	}
 
 	if (fork() == 0) {
 		if (dpy)

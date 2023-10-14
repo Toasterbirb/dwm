@@ -9,8 +9,7 @@ static const int vertpad            = 5;       /* vertical padding of bar */
 static const int sidepad            = 10;       /* horizontal padding of bar */
 static const int user_bh            = 28;       /* 0 means that dwm will calculate bar height,
 												   >= 1 means dwm will user_bh as bar height */
-static const char *fonts[]          = { "monospace:size=13" };
-static const char dmenufont[]       = "monospace:size=15";
+static const char *fonts[]          = { "mononoki:size=13" };
 static const unsigned int gappih    = 10;       /* horiz inner gap between windows */
 static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
 static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
@@ -32,6 +31,14 @@ static const char *colors[][3]      = {
 	[SchemeInfoNorm]  = { col_gray3, col_gray1,  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 
 };
+
+/* dmenu */
+static const int  dmenu_x_offset  = 0;
+static const int  dmenu_y_offset  = -64;
+static const int  dmenu_lines     = 7;
+static const int  dmenu_width     = 512;
+static const int  dmenu_font_size = 15;
+static const char dmenufont[]     = "mononoki:size=15";
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -72,7 +79,11 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-hp", "firefox;surf", "-m", dmenumon, "-fn", dmenufont, NULL };
+static char dmenu_x_offset_str[5];
+static char dmenu_y_offset_str[5];
+static char dmenu_lines_str[5];
+static char dmenu_width_str[5];
+static const char *dmenucmd[] = { "dmenu_run", "-hp", "firefox", "-m", dmenumon, "-fn", dmenufont, "-x", dmenu_x_offset_str, "-y", dmenu_y_offset_str, "-z", dmenu_width_str, "-l", dmenu_lines_str, NULL };
 static const char *termcmd[]  = { "st", NULL };
 
 static const Key keys[] = {
