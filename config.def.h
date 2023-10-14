@@ -71,7 +71,8 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+static const char *dmenucmd[] = { "dmenu_run", "-hp", "firefox;surf", "-m", dmenumon, "-fn", dmenufont, NULL };
 static const char *termcmd[]  = { "st", NULL };
 
 static const Key keys[] = {
@@ -85,7 +86,7 @@ static const Key keys[] = {
 	{ MODKEY|ControlMask,   55,     incnmaster,     {.i = -1 } },   // v
 	{ MODKEY,               43,     setmfact,       {.f = -0.05} }, // h
 	{ MODKEY,               46,     setmfact,       {.f = +0.05} }, // l
-	{ MODKEY,               36,     zoom,           {0} },          // Return
+	{ MODKEY|ShiftMask,     36,     zoom,           {0} },          // Return
 	{ MODKEY,               23,     view,           {0} },          // Tab
 	{ MODKEY|ShiftMask,     24,     killclient,     {0} },          // q
 	{ MODKEY,               28,     setlayout,      {.v = &layouts[0]} }, // t
