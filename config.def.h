@@ -1,13 +1,13 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const int vertpad            = 10;       /* vertical padding of bar */
+static const int vertpad            = 5;       /* vertical padding of bar */
 static const int sidepad            = 10;       /* horizontal padding of bar */
-static const int user_bh            = 0;        /* 0 means that dwm will calculate bar height,
+static const int user_bh            = 28;       /* 0 means that dwm will calculate bar height,
 												   >= 1 means dwm will user_bh as bar height */
 static const char *fonts[]          = { "monospace:size=13" };
 static const char dmenufont[]       = "monospace:size=15";
@@ -96,10 +96,10 @@ static const Key keys[] = {
 	{ MODKEY,               41,     togglefullscr,  {0} },          // f
 	{ MODKEY,               19,     view,           {.ui = ~0 } },  // 0
 	{ MODKEY|ShiftMask,     19,     tag,            {.ui = ~0 } },  // 0
-	{ MODKEY,               59,     focusmon,       {.i = -1 } },   // comma
-	{ MODKEY,               60,     focusmon,       {.i = +1 } },   // period
-	{ MODKEY|ShiftMask,     59,     tagmon,         {.i = -1 } },   // comma
-	{ MODKEY|ShiftMask,     60,     tagmon,         {.i = +1 } },   // period
+	{ MODKEY,               59,     focusmon,       {.i = +1 } },   // comma
+	{ MODKEY,               60,     focusmon,       {.i = -1 } },   // period
+	{ MODKEY|ShiftMask,     59,     tagmon,         {.i = +1 } },   // comma
+	{ MODKEY|ShiftMask,     60,     tagmon,         {.i = -1 } },   // period
 	{ MODKEY|Mod4Mask,      19,     togglegaps,     {0} },          // 0
 	TAGKEYS(                10,                     0)              // 1
 	TAGKEYS(                11,                     1)              // 2
