@@ -1,5 +1,8 @@
 /* See LICENSE file for copyright and license details. */
 
+/* include the colorscheme */
+#include "theme.h"
+
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -15,22 +18,6 @@ static const unsigned int gappiv    = 10;       /* vert inner gap between window
 static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
 static const unsigned int gappov    = 10;       /* vert outer gap between windows and screen edge */
 static const int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
-static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
-	[SchemeStatus]  = { col_gray3, col_gray1,  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
-	[SchemeTagsSel]  = { col_gray4, col_cyan,  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
-	[SchemeTagsNorm]  = { col_gray3, col_gray1,  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-	[SchemeInfoSel]  = { col_gray4, col_cyan,  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
-	[SchemeInfoNorm]  = { col_gray3, col_gray1,  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
-
-};
 
 /* dmenu */
 static const int  dmenu_x_offset  = 0;
@@ -83,7 +70,7 @@ static char dmenu_x_offset_str[5];
 static char dmenu_y_offset_str[5];
 static char dmenu_lines_str[5];
 static char dmenu_width_str[5];
-static const char *dmenucmd[] = { "dmenu_run", "-hp", "firefox", "-m", dmenumon, "-fn", dmenufont, "-x", dmenu_x_offset_str, "-y", dmenu_y_offset_str, "-z", dmenu_width_str, "-l", dmenu_lines_str, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-hp", "firefox", "-m", dmenumon, "-fn", dmenufont, "-x", dmenu_x_offset_str, "-y", dmenu_y_offset_str, "-z", dmenu_width_str, "-l", dmenu_lines_str, "-nb", dmenu_background, "-nf", dmenu_text, "-sb", dmenu_active_background, "-sf", dmenu_active_text, NULL };
 static const char *termcmd[]  = { "st", NULL };
 
 static const Key keys[] = {
@@ -142,3 +129,16 @@ static const Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
 
+/* Color mappings
+ * You can modify the colors in theme.h */
+static const char *colors[][3]      = {
+	/*               fg         bg         border   */
+	[SchemeNorm] = { "#000000", "#000000", border_inactive },
+	[SchemeSel]  = { "#000000", "#000000",  border_active  },
+	[SchemeStatus]  = { status_text, status_background,  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
+	[SchemeTagsSel]  = { tag_active_text, tag_active_background,  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
+	[SchemeTagsNorm]  = { tag_inactive_text, tag_inactive_background,  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
+	[SchemeInfoSel]  = { info_active_text, info_active_background,  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
+	[SchemeInfoNorm]  = { info_inactive_text, info_inactive_background,  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
+
+};

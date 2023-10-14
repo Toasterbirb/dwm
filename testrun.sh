@@ -48,5 +48,5 @@ pgrep Xephyr || Xephyr -br -ac -noreset -screen 1600x900 $XEPHYR_DISPLAY &>/dev/
 export DISPLAY=$XEPHYR_DISPLAY
 
 make clean
-rm config.h
+rm -f config.h theme.h
 make && _relaunch
