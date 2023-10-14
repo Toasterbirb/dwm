@@ -1697,13 +1697,25 @@ spawn(const Arg *arg)
 		/* Choose the correct monitor to spawn dmenu to */
 		dmenumon[0] = '0' + selmon->num;
 
-		/* Calculate offsets based on the current monitor dimensions */
-		snprintf(dmenu_x_offset_str, 5, "%d", selmon->mw / 2 - dmenu_width / 2 + dmenu_x_offset);
-		snprintf(dmenu_y_offset_str, 5, "%d", selmon->mh / 2 - dmenu_lines / 2 + dmenu_y_offset);
+		if (dmenu_centered)
+		{
+			/* Calculate offsets based on the current monitor dimensions */
+			snprintf(dmenu_x_offset_str, 5, "%d", selmon->mw / 2 - dmenu_width / 2 + dmenu_x_offset);
+			snprintf(dmenu_y_offset_str, 5, "%d", selmon->mh / 2 - dmenu_lines / 2 + dmenu_y_offset);
 
-		/* Convert the integer config variables to strings */
-		snprintf(dmenu_lines_str, 5, "%d", dmenu_lines);
-		snprintf(dmenu_width_str, 5, "%d", dmenu_width);
+			/* Convert the integer config variables to strings */
+			snprintf(dmenu_lines_str, 5, "%d", dmenu_lines);
+			snprintf(dmenu_width_str, 5, "%d", dmenu_width);
+		}
+		else
+		{
+			/* Calculate offsets based on the top bar padding */
+			snprintf(dmenu_x_offset_str, 5, "%d", sidepad);
+			snprintf(dmenu_y_offset_str, 5, "%d", vertpad);
+
+			/* Calculate the width based on the top bar and monitor width */
+			snprintf(dmenu_width_str, 5, "%d", selmon->mw - sidepad * 2 - 4);
+		}
 	}
 
 	if (fork() == 0) {

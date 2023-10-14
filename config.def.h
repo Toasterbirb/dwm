@@ -18,17 +18,22 @@ static const unsigned int gappiv      = 10;       /* vert inner gap between wind
 static const unsigned int gappoh      = 10;       /* horiz outer gap between windows and screen edge */
 static const unsigned int gappov      = 10;       /* vert outer gap between windows and screen edge */
 static const int smartgaps            = 0;        /* 1 means no outer gap when there is only one window */
-static const int tag_indicator_height = 3;
+static const int tag_indicator_height = 2;
 
-/* dmenu */
+/** dmenu **/
+static const int  dmenu_centered  = 1;   /* If this is set to false, dmenu will position itself
+                                            on top of the status bar */
+static const int  dmenu_font_size = 15;
+static const char dmenufont[]     = "mononoki:size=18";
+
+/* centered dmenu settings */
 static const int  dmenu_x_offset  = 10;
 static const int  dmenu_y_offset  = -64;
 static const int  dmenu_lines     = 7;
 static const int  dmenu_width     = 512;
-static const int  dmenu_font_size = 15;
-static const char dmenufont[]     = "mononoki:size=15";
 
-/* tagging */
+
+/** tagging **/
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
@@ -67,10 +72,10 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static char dmenu_x_offset_str[5];
-static char dmenu_y_offset_str[5];
-static char dmenu_lines_str[5];
-static char dmenu_width_str[5];
+static char dmenu_x_offset_str[5] = "0";
+static char dmenu_y_offset_str[5] = "0";
+static char dmenu_lines_str[5] = "0";
+static char dmenu_width_str[5] = "0";
 static const char *dmenucmd[] = { "dmenu_run", "-hp", "firefox", "-m", dmenumon, "-fn", dmenufont, "-x", dmenu_x_offset_str, "-y", dmenu_y_offset_str, "-z", dmenu_width_str, "-l", dmenu_lines_str, "-nb", dmenu_background, "-nf", dmenu_text, "-sb", dmenu_active_background, "-sf", dmenu_active_text, NULL };
 static const char *termcmd[]  = { "st", NULL };
 
