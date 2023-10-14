@@ -5,6 +5,11 @@ This is my personal fork of [dwm](https://dwm.suckless.org/) with some patches a
 The following patches are required in dmenu:
 - [xyw](https://tools.suckless.org/dmenu/patches/xyw/)
 
+## Screenshots
+![empty](./screenshots/desktop_empty.png)
+
+![busy](./screenshots/desktop_busy.png)
+
 ## Configuration
 Most of the settings are configured the classic dwm way by editing the *config.h* file. In this fork however the colors are edited by modifying the *theme.h* file. This makes it possible to have multiple colorschemes while keeping things like keybinds etc. separate. The default colorscheme is included in the *theme.def.h* file that gets copied into *theme.h* that you can then edit (unless you want to change the defaults for some reason).
 
