@@ -742,7 +742,7 @@ drawbar(Monitor *m)
 	if (m == selmon) { /* status is only drawn on selected monitor */
 		drw_setscheme(drw, scheme[SchemeStatus]);
 		tw = TEXTW(stext) - lrpad + 2; /* 2px right padding */
-		drw_text(drw, m->ww - tw - 2 * sp, 0, tw, bh, 0, stext, 0);
+		drw_text(drw, m->ww - tw - 2 * sp, bar_text_offset, tw, bh, 0, stext, 0);
 
 		if (enable3dbar)
 		{
@@ -760,7 +760,7 @@ drawbar(Monitor *m)
 	for (i = 0; i < LENGTH(tags); i++) {
 		w = TEXTW(tags[i]);
 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeTagsSel : SchemeTagsNorm]);
-		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
+		drw_text(drw, x, bar_text_offset, w, bh, lrpad / 2, tags[i], urg & 1 << i);
 		if (enable3dbar)
 		{
 			drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeTagsShadowSel : SchemeTagsShadowNorm]);
@@ -775,7 +775,7 @@ drawbar(Monitor *m)
 	}
 	w = TEXTW(m->ltsymbol);
 	drw_setscheme(drw, scheme[SchemeTagsNorm]);
-	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
+	x = drw_text(drw, x, bar_text_offset, w, bh, lrpad / 2, m->ltsymbol, 0);
 
 	if (enable3dbar)
 	{
@@ -787,7 +787,7 @@ drawbar(Monitor *m)
 	if ((w = m->ww - tw - x) > bh) {
 		if (m->sel) {
 			drw_setscheme(drw, scheme[m == selmon ? SchemeInfoSel : SchemeInfoNorm]);
-			drw_text(drw, x, 0, w - 2 * sp, bh, lrpad / 2, m->sel->name, 0);
+			drw_text(drw, x, bar_text_offset, w - 2 * sp, bh, lrpad / 2, m->sel->name, 0);
 
 			if (enable3dbar)
 			{

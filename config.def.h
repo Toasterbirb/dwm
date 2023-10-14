@@ -22,6 +22,8 @@ static const int tag_indicator_height = 2;
 
 static const int enable3dbar          = 1;
 static const int shadow_height        = 4;
+static const int bar_text_offset      = -1;      /* height offset for the bar text,
+													 useful if the text isn't centered when using 3dbar */
 
 /** dmenu **/
 static const int  dmenu_centered  = 1;   /* If this is set to false, dmenu will position itself
