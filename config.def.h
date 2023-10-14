@@ -20,6 +20,9 @@ static const unsigned int gappov      = 10;       /* vert outer gap between wind
 static const int smartgaps            = 0;        /* 1 means no outer gap when there is only one window */
 static const int tag_indicator_height = 2;
 
+static const int enable3dbar          = 1;
+static const int shadow_height        = 4;
+
 /** dmenu **/
 static const int  dmenu_centered  = 1;   /* If this is set to false, dmenu will position itself
                                             on top of the status bar */
@@ -142,10 +145,15 @@ static const char *colors[][3]      = {
 	[SchemeNorm] = { "#000000", "#000000", border_inactive },
 	[SchemeSel]  = { "#000000", "#000000",  border_active  },
 	[SchemeStatus]  = { status_text, status_background,  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
+	[SchemeStatusShadow]  = { status_3d_shadow, "#000000",  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
 	[SchemeTagsSel]  = { tag_active_text, tag_active_background,  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
 	[SchemeTagsNorm]  = { tag_inactive_text, tag_inactive_background,  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
+	[SchemeTagsShadowSel]  = { tag_active_3d_shadow, "#000000",  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
+	[SchemeTagsShadowNorm]  = { tag_inactive_3d_shadow, "#000000",  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
 	[SchemeInfoSel]  = { info_active_text, info_active_background,  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
 	[SchemeInfoNorm]  = { info_inactive_text, info_inactive_background,  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
+	[SchemeInfoShadowSel]  = { info_active_3d_shadow, "#000000",  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
+	[SchemeInfoShadowNorm]  = { info_inactive_3d_shadow, "#000000",  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 	[SchemeTagsIndicatorNorm]  = { tag_inactive_indicator, "#000000",  "#000000"  },
 	[SchemeTagsIndicatorSel]  = { tag_active_indicator, "#000000",  "#000000"  },
 };

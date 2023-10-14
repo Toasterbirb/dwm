@@ -60,9 +60,9 @@
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
 
 enum { SchemeNorm, SchemeSel,
-	   SchemeStatus,
-	   SchemeTagsSel,SchemeTagsNorm, SchemeTagsIndicatorSel, SchemeTagsIndicatorNorm,
-	   SchemeInfoSel, SchemeInfoNorm }; /* color schemes */
+	   SchemeStatus, SchemeStatusShadow,
+	   SchemeTagsSel,SchemeTagsNorm, SchemeTagsIndicatorSel, SchemeTagsIndicatorNorm, SchemeTagsShadowNorm, SchemeTagsShadowSel,
+	   SchemeInfoSel, SchemeInfoNorm, SchemeInfoShadowSel, SchemeInfoShadowNorm }; /* color schemes */
 
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
@@ -743,6 +743,12 @@ drawbar(Monitor *m)
 		drw_setscheme(drw, scheme[SchemeStatus]);
 		tw = TEXTW(stext) - lrpad + 2; /* 2px right padding */
 		drw_text(drw, m->ww - tw - 2 * sp, 0, tw, bh, 0, stext, 0);
+
+		if (enable3dbar)
+		{
+			drw_setscheme(drw, scheme[SchemeStatusShadow]);
+			drw_rect(drw, m->ww - sw, user_bh - shadow_height, sw + lrpad / 2, shadow_height, 1, 0); /* add shadow bar for status */
+		}
 	}
 
 	for (c = m->clients; c; c = c->next) {
@@ -755,6 +761,11 @@ drawbar(Monitor *m)
 		w = TEXTW(tags[i]);
 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeTagsSel : SchemeTagsNorm]);
 		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
+		if (enable3dbar)
+		{
+			drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeTagsShadowSel : SchemeTagsShadowNorm]);
+			drw_rect(drw, x, user_bh - shadow_height, w, shadow_height, 1, 0); /* add shadow bar to tags */
+		}
 		if (occ & 1 << i)
 		{
 			drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeTagsIndicatorSel : SchemeTagsIndicatorNorm]);
@@ -766,15 +777,35 @@ drawbar(Monitor *m)
 	drw_setscheme(drw, scheme[SchemeTagsNorm]);
 	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
 
+	if (enable3dbar)
+	{
+		drw_setscheme(drw, scheme[SchemeTagsShadowNorm]);
+		drw_rect(drw, x - w, user_bh - shadow_height, w, shadow_height, 1, 0); /* add shadow bar for tiling indicator */
+	}
+
+
 	if ((w = m->ww - tw - x) > bh) {
 		if (m->sel) {
 			drw_setscheme(drw, scheme[m == selmon ? SchemeInfoSel : SchemeInfoNorm]);
 			drw_text(drw, x, 0, w - 2 * sp, bh, lrpad / 2, m->sel->name, 0);
+
+			if (enable3dbar)
+			{
+				drw_setscheme(drw, scheme[m == selmon ? SchemeInfoShadowSel : SchemeInfoShadowNorm]);
+				drw_rect(drw, x, user_bh - shadow_height, w - 2 * sp, shadow_height, 1, 0); /* add shadow bar for window title */
+			}
+
 			if (m->sel->isfloating)
 				drw_rect(drw, x + boxs + 2, boxs + 2, boxh, boxh, m->sel->isfixed, 0);
 		} else {
 			drw_setscheme(drw, scheme[SchemeInfoNorm]);
 			drw_rect(drw, x, 0, w - 2 * sp, bh, 1, 1);
+
+			if (enable3dbar)
+			{
+				drw_setscheme(drw, scheme[SchemeInfoShadowNorm]);
+				drw_rect(drw, x, user_bh - shadow_height, w - 2 * sp, shadow_height, 1, 0); /* add shadow bar for window title */
+			}
 		}
 	}
 	drw_map(drw, m->barwin, 0, 0, m->ww, bh);
