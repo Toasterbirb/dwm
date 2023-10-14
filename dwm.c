@@ -58,11 +58,18 @@
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel, SchemeStatus, SchemeTagsSel, SchemeTagsNorm, SchemeInfoSel, SchemeInfoNorm }; /* color schemes */
+
+enum { SchemeNorm, SchemeSel,
+	   SchemeStatus,
+	   SchemeTagsSel,SchemeTagsNorm, SchemeTagsIndicatorSel, SchemeTagsIndicatorNorm,
+	   SchemeInfoSel, SchemeInfoNorm }; /* color schemes */
+
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
+
 enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
+
 enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
        ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
 
@@ -719,8 +726,12 @@ void
 drawbar(Monitor *m)
 {
 	int x, w, tw = 0;
-	int boxs = drw->fonts->h / 9;
-	int boxw = drw->fonts->h / 6 + 2;
+
+	/* tag indicator geometry */
+	int boxs = 0; /* position offset from the top left corner */
+	int boxw = boxw = (drw->fonts->h + 8); /* width */;
+	int boxh = tag_indicator_height;
+
 	unsigned int i, occ = 0, urg = 0;
 	Client *c;
 
@@ -745,9 +756,10 @@ drawbar(Monitor *m)
 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeTagsSel : SchemeTagsNorm]);
 		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
 		if (occ & 1 << i)
-			drw_rect(drw, x + boxs, boxs, boxw, boxw,
-				m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
-				urg & 1 << i);
+		{
+			drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeTagsIndicatorSel : SchemeTagsIndicatorNorm]);
+			drw_rect(drw, x + boxs, boxs, boxw, boxh, 1, urg & 1 << i);
+		}
 		x += w;
 	}
 	w = TEXTW(m->ltsymbol);
@@ -759,7 +771,7 @@ drawbar(Monitor *m)
 			drw_setscheme(drw, scheme[m == selmon ? SchemeInfoSel : SchemeInfoNorm]);
 			drw_text(drw, x, 0, w - 2 * sp, bh, lrpad / 2, m->sel->name, 0);
 			if (m->sel->isfloating)
-				drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
+				drw_rect(drw, x + boxs + 2, boxs + 2, boxh, boxh, m->sel->isfixed, 0);
 		} else {
 			drw_setscheme(drw, scheme[SchemeInfoNorm]);
 			drw_rect(drw, x, 0, w - 2 * sp, bh, 1, 1);

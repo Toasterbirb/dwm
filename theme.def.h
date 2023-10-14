@@ -7,8 +7,10 @@ static const char border_inactive[] = "#1a1a24";
 /* tagbar */
 static const char tag_active_text[]         = "#2c2e3e";
 static const char tag_active_background[]   = "#b1dba4";
+static const char tag_active_indicator[]    = "#cddbf9";
 static const char tag_inactive_text[]       = "#cddbf9";
 static const char tag_inactive_background[] = "#2c2e3e";
+static const char tag_inactive_indicator[]  = "#cddbf9";
 
 /* infobar */
 static const char info_active_text[]         = "#2c2e3e";
