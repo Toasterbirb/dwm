@@ -34,7 +34,7 @@ static const char dmenufont[]     = "mononoki:size=18";
 /* centered dmenu settings */
 static const int  dmenu_x_offset  = 10;
 static const int  dmenu_y_offset  = -64;
-static const int  dmenu_lines     = 7;
+static const int  dmenu_lines     = 4;
 static const int  dmenu_width     = 512;
 
 
