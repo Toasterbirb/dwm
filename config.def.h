@@ -45,7 +45,7 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
-#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -61,18 +61,18 @@ static const char *termcmd[]  = { "st", NULL };
 
 static const Key keys[] = {
 	/* modifier             key     function        argument */
-	{ MODKEY,               33,     spawn,          {.v = dmenucmd } }, // p
-	{ MODKEY|ShiftMask,     36,     spawn,          {.v = termcmd } }, // Return
-	{ MODKEY,               56,     togglebar,      {0} },          // b
+	{ MODKEY,               40,     spawn,          {.v = dmenucmd } }, // d
+	{ MODKEY,               36,     spawn,          {.v = termcmd } }, // Return
+	{ MODKEY|ShiftMask,     56,     togglebar,      {0} },          // b
 	{ MODKEY,               44,     focusstack,     {.i = +1 } },   // j
 	{ MODKEY,               45,     focusstack,     {.i = -1 } },   // k
-	{ MODKEY,               31,     incnmaster,     {.i = +1 } },   // i
-	{ MODKEY,               40,     incnmaster,     {.i = -1 } },   // d
+	{ MODKEY|ControlMask,   31,     incnmaster,     {.i = +1 } },   // i
+	{ MODKEY|ControlMask,   55,     incnmaster,     {.i = -1 } },   // v
 	{ MODKEY,               43,     setmfact,       {.f = -0.05} }, // h
 	{ MODKEY,               46,     setmfact,       {.f = +0.05} }, // l
 	{ MODKEY,               36,     zoom,           {0} },          // Return
 	{ MODKEY,               23,     view,           {0} },          // Tab
-	{ MODKEY|ShiftMask,     54,     killclient,     {0} },          // c
+	{ MODKEY|ShiftMask,     24,     killclient,     {0} },          // q
 	{ MODKEY,               28,     setlayout,      {.v = &layouts[0]} }, // t
 	{ MODKEY,               41,     setlayout,      {.v = &layouts[1]} }, // f
 	{ MODKEY,               58,     setlayout,      {.v = &layouts[2]} }, // m
@@ -93,7 +93,7 @@ static const Key keys[] = {
 	TAGKEYS(                16,                     6)              // 7
 	TAGKEYS(                17,                     7)              // 8
 	TAGKEYS(                18,                     8)              // 9
-	{ MODKEY|ShiftMask,     24,     quit,           {0} },          // q
+	{ MODKEY|ShiftMask,     26,     quit,           {0} },          // e
 };
 
 /* button definitions */
