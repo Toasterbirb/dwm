@@ -79,10 +79,11 @@ static const Key keys[] = {
 	{ MODKEY,               23,     view,           {0} },          // Tab
 	{ MODKEY|ShiftMask,     24,     killclient,     {0} },          // q
 	{ MODKEY,               28,     setlayout,      {.v = &layouts[0]} }, // t
-	{ MODKEY,               41,     setlayout,      {.v = &layouts[1]} }, // f
+	//{ MODKEY,               41,     setlayout,      {.v = &layouts[1]} }, // f
 	{ MODKEY,               58,     setlayout,      {.v = &layouts[2]} }, // m
 	{ MODKEY,               65,     setlayout,      {0} },          // space
 	{ MODKEY|ShiftMask,     65,     togglefloating, {0} },          // space
+	{ MODKEY,               41,     togglefullscr,  {0} },          // f
 	{ MODKEY,               19,     view,           {.ui = ~0 } },  // 0
 	{ MODKEY|ShiftMask,     19,     tag,            {.ui = ~0 } },  // 0
 	{ MODKEY,               59,     focusmon,       {.i = -1 } },   // comma
