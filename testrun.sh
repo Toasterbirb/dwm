@@ -43,7 +43,7 @@ function _relaunch()
 }
 
 
-pgrep Xephyr || Xephyr -br -ac -noreset -screen 1280x720 $XEPHYR_DISPLAY &>/dev/null &
+pgrep Xephyr || Xephyr -br -ac -noreset -screen 1600x900 $XEPHYR_DISPLAY &>/dev/null &
 
 export DISPLAY=$XEPHYR_DISPLAY
 
