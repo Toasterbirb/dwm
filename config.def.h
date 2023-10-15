@@ -88,6 +88,8 @@ static const Key keys[] = {
 	{ MODKEY,               40,     spawn,          {.v = dmenucmd } }, // d
 	{ MODKEY,               36,     spawn,          {.v = termcmd } }, // Return
 	{ MODKEY|ShiftMask,     56,     togglebar,      {0} },          // b
+	{ MODKEY|ShiftMask,     44,     rotatestack,    {.i = +1 } },  // j
+	{ MODKEY|ShiftMask,     45,     rotatestack,    {.i = -1 } },  // k
 	{ MODKEY,               44,     focusstack,     {.i = +1 } },   // j
 	{ MODKEY,               45,     focusstack,     {.i = -1 } },   // k
 	{ MODKEY|ControlMask,   31,     incnmaster,     {.i = +1 } },   // i

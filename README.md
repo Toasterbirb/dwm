@@ -22,5 +22,6 @@ The following patches have been applied. Do note though that there might be some
 - [colorbar](https://dwm.suckless.org/patches/colorbar/dwm-colorbar-6.3.diff)
 - [fixborders](https://dwm.suckless.org/patches/alpha/dwm-fixborders-6.2.diff)
 - [keycodes](https://dwm.suckless.org/patches/keycodes/dwm-keycodes-6.4.diff)
+- [rotatestack](https://dwm.suckless.org/patches/rotatestack/dwm-rotatestack-20161021-ab9571b.diff)
 - [steam](https://dwm.suckless.org/patches/steam/dwm-steam-6.2.diff)
 - [vanitygaps](https://dwm.suckless.org/patches/vanitygaps/dwm-vanitygaps-20200610-f09418b.diff)
