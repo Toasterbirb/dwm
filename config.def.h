@@ -1,7 +1,11 @@
 /* See LICENSE file for copyright and license details. */
 
 /* include the colorscheme */
+#ifdef SYSTEM_CONFIG
+#include "/etc/dwm/theme.h"
+#else
 #include "theme.h"
+#endif
 
 /* appearance */
 static const unsigned int borderpx    = 2;        /* border pixel of windows */
