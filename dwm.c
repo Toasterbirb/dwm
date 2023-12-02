@@ -736,7 +736,7 @@ drawbar(Monitor *m)
 
 	/* tag indicator geometry */
 	int boxs = 0; /* position offset from the top left corner */
-	int boxw = (drw->fonts->h + 8); /* width */;
+	int boxw = (drw->fonts->h + 10); /* width */;
 	int boxh = tag_indicator_height;
 
 	unsigned int i, occ = 0, urg = 0;
