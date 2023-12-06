@@ -52,6 +52,7 @@ static const Rule rules[] = {
 	 */
 	/* class            instance    title       tags mask     isfloating   monitor */
 	{ "Tor Browser",  	NULL,       NULL,       0,       	  1,           -1 },
+	{ "steam",  		NULL,       NULL,       1 << 5,    	  0,            0 },
 };
 
 /* layout(s) */
