@@ -42,6 +42,7 @@
 
 #include "drw.h"
 #include "util.h"
+#include "snd.h"
 
 /* macros */
 #define BUTTONMASK              (ButtonPressMask|ButtonReleaseMask)
@@ -287,6 +288,13 @@ static Display *dpy;
 static Drw *drw;
 static Monitor *mons, *selmon;
 static Window root, wmcheckwin;
+
+/* sounds */
+void* open_sound;
+char open_sound_path[] = "open.opus";
+
+void* close_sound;
+char close_sound_path[] = "close.opus";
 
 /* configuration, allows nested code to access above variables */
 #ifdef SYSTEM_CONFIG
@@ -1094,6 +1102,8 @@ keypress(XEvent *e)
 void
 killclient(const Arg *arg)
 {
+	snd_play(close_sound);
+
 	if (!selmon->sel)
 		return;
 	if (!sendevent(selmon->sel, wmatom[WMDelete])) {
@@ -1719,6 +1729,12 @@ setup(void)
 	/* init bars */
 	updatebars();
 	updatestatus();
+
+	/* init audio */
+	snd_init();
+	open_sound = snd_load(open_sound_path);
+	close_sound = snd_load(close_sound_path);
+
 	/* supporting window for NetWMCheck */
 	wmcheckwin = XCreateSimpleWindow(dpy, root, 0, 0, 1, 1, 0, 0, 0);
 	XChangeProperty(dpy, wmcheckwin, netatom[NetWMCheck], XA_WINDOW, 32,
@@ -1784,6 +1800,9 @@ sigchld(int unused)
 void
 spawn(const Arg *arg)
 {
+	/* play a hit sound */
+	snd_play(open_sound);
+
 	if (arg->v == dmenucmd)
 	{
 		/* Choose the correct monitor to spawn dmenu to */
