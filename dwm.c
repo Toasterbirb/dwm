@@ -865,7 +865,11 @@ enternotify(XEvent *e)
 		selmon = m;
 	} else if (!c || c == selmon->sel)
 		return;
-	focus(c);
+
+	/* Don't focus to clients on hover if the client is floating
+	 * or if we are in floating point in general */
+	if (!c->isfloating && selmon->lt[selmon->sellt]->arrange != NULL)
+		focus(c);
 }
 
 void
