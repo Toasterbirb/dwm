@@ -119,10 +119,10 @@ typedef struct {
 } Layout;
 
 struct Monitor {
-	char ltsymbol[16];
+	char ltsymbol[16];    /* layout symbol text */
 	float mfact;
 	int nmaster;
-	int num;
+	int num;              /* monitors index */
 	int by;               /* bar geometry */
 	int mx, my, mw, mh;   /* screen size */
 	int wx, wy, ww, wh;   /* window area  */
@@ -130,8 +130,8 @@ struct Monitor {
 	int gappiv;           /* vertical gap between windows */
 	int gappoh;           /* horizontal outer gaps */
 	int gappov;           /* vertical outer gaps */
-	unsigned int seltags;
-	unsigned int sellt;
+	unsigned int seltags; /* mask for selected tags */
+	unsigned int sellt;   /* selected layout */
 	unsigned int tagset[2];
 	int showbar;
 	int topbar;
