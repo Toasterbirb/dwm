@@ -134,6 +134,7 @@ struct Monitor {
 	unsigned int sellt;   /* selected layout */
 	unsigned int tagset[2];
 	int showbar;
+	unsigned int barmask;
 	int topbar;
 	Client *clients;
 	Client *sel;
@@ -669,6 +670,7 @@ createmon(void)
 	m->mfact = mfact;
 	m->nmaster = nmaster;
 	m->showbar = showbar;
+	m->barmask = showbar * TAGMASK;
 	m->topbar = topbar;
 	m->gappih = gappih;
 	m->gappiv = gappiv;
@@ -742,7 +744,7 @@ drawbar(Monitor *m)
 	unsigned int i, occ = 0, urg = 0;
 	Client *c;
 
-	if (!m->showbar)
+	if (!m->showbar || !(m->tagset[m->seltags] & m->barmask))
 		return;
 
 	/* draw status first so it can be overdrawn by tags later */
@@ -1902,8 +1904,19 @@ togglefloating(const Arg *arg)
 void
 togglefullscr(const Arg *arg)
 {
-  if(selmon->sel)
-    setfullscreen(selmon->sel, !selmon->sel->isfullscreen);
+	if(selmon->sel)
+		setfullscreen(selmon->sel, !selmon->sel->isfullscreen);
+
+	/* Toggle the bar hiding for the current tag */
+	unsigned int ctag = selmon->tagset[selmon->seltags];
+
+	if(arg->i == 1 || ctag == TAGMASK){
+	    selmon->showbar = !selmon->showbar;
+	    selmon->barmask = selmon->showbar * TAGMASK;
+	}
+	else {
+	    selmon->barmask ^= ctag;
+	}
 }
 
 void
