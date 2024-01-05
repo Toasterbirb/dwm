@@ -229,6 +229,7 @@ static void tile(Monitor *m);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
 static void togglefullscr(const Arg *arg);
+static void togglefullscrbarhide(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
 static void unfocus(Client *c, int setfocus);
@@ -1101,6 +1102,11 @@ killclient(const Arg *arg)
 {
 	if (!selmon->sel)
 		return;
+
+	/* If the client was fllscreen, toggle the bar back on in the tag */
+	if (selmon->sel->isfullscreen)
+		togglefullscrbarhide(arg);
+
 	if (!sendevent(selmon->sel, wmatom[WMDelete])) {
 		XGrabServer(dpy);
 		XSetErrorHandler(xerrordummy);
@@ -1907,6 +1913,12 @@ togglefullscr(const Arg *arg)
 	if(selmon->sel)
 		setfullscreen(selmon->sel, !selmon->sel->isfullscreen);
 
+	togglefullscrbarhide(arg);
+}
+
+void
+togglefullscrbarhide(const Arg *arg)
+{
 	/* Toggle the bar hiding for the current tag */
 	unsigned int ctag = selmon->tagset[selmon->seltags];
 
