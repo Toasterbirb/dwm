@@ -81,7 +81,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-#define DMENU_STR_SIZE 5
+#define DMENU_STR_SIZE 12
 static char dmenu_x_offset_str[DMENU_STR_SIZE] = "0";
 static char dmenu_y_offset_str[DMENU_STR_SIZE] = "0";
 static char dmenu_lines_str[DMENU_STR_SIZE] = "0";
