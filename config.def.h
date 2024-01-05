@@ -81,10 +81,11 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static char dmenu_x_offset_str[5] = "0";
-static char dmenu_y_offset_str[5] = "0";
-static char dmenu_lines_str[5] = "0";
-static char dmenu_width_str[5] = "0";
+#define DMENU_STR_SIZE 5
+static char dmenu_x_offset_str[DMENU_STR_SIZE] = "0";
+static char dmenu_y_offset_str[DMENU_STR_SIZE] = "0";
+static char dmenu_lines_str[DMENU_STR_SIZE] = "0";
+static char dmenu_width_str[DMENU_STR_SIZE] = "0";
 static const char *dmenucmd[] = { "dmenu_run", "-hp", "firefox", "-m", dmenumon, "-fn", dmenufont, "-x", dmenu_x_offset_str, "-y", dmenu_y_offset_str, "-z", dmenu_width_str, "-l", dmenu_lines_str, "-nb", dmenu_background, "-nf", dmenu_text, "-sb", dmenu_active_background, "-sf", dmenu_active_text, NULL };
 static const char *termcmd[]  = { "st", NULL };
 
