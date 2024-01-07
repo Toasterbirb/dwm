@@ -25,4 +25,3 @@ The following patches have been applied. Do note though that there might be some
 - [rotatestack](https://dwm.suckless.org/patches/rotatestack/dwm-rotatestack-20161021-ab9571b.diff)
 - [steam](https://dwm.suckless.org/patches/steam/dwm-steam-6.2.diff)
 - [vanitygaps](https://dwm.suckless.org/patches/vanitygaps/dwm-vanitygaps-20200610-f09418b.diff)
-- [togglebartag](https://dwm.suckless.org/patches/togglebartag/togglebartag-20230421-e81f17d.diff)
