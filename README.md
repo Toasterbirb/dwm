@@ -18,7 +18,7 @@ The following is a short list of the main features that this fork has on top of 
 - Fix border transparency issues
 - Use keycodes for keybindings to make them stay the same across different keyboard layouts
 - Gaps :3
-- Separate colorschemes from config.h (see [Configuration](#Configuration))
+- Separate colorschemes from config.h (see [Configuration](#configuration))
 - Disable focus on-hover when in floating layout
 - Cool keybinds
 - Pleasant colorschemes
