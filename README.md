@@ -10,6 +10,20 @@ The following patches are required in dmenu:
 
 ![busy](./screenshots/desktop_busy.png)
 
+## Features
+The following is a short list of the main features that this fork has on top of the vanilla dwm build. The list may or may not be complete or up-to-date.
+- Keybind for fullscreening clients (no monocle mode fakery)
+- Customized status bar with optional padding and some other options
+- Customized dmenu launcher for running applications
+- Fix border transparency issues
+- Use keycodes for keybindings to make them stay the same across different keyboard layouts
+- Gaps :3
+- Separate colorschemes from config.h (see [Configuration](#Configuration))
+- Disable focus on-hover when in floating layout
+- Cool keybinds
+- Pleasant colorschemes
+- Possibly some other misc. opionated changes and *fixes* that I can't be bothered to list here
+
 ## Configuration
 Most of the settings are configured the classic dwm way by editing the *config.h* file. In this fork however the colors are edited by modifying the *theme.h* file. This makes it possible to have multiple colorschemes while keeping things like keybinds etc. separate. The default colorscheme is included in the *theme.def.h* file that gets copied into *theme.h* that you can then edit (unless you want to change the defaults for some reason).
 
