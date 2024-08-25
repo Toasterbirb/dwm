@@ -33,7 +33,7 @@ The following patches have been applied. Do note though that there might be some
 - [actualfullscreen](https://dwm.suckless.org/patches/actualfullscreen/dwm-actualfullscreen-20211013-cb3f58a.diff)
 - [bar height](https://dwm.suckless.org/patches/bar_height/dwm-bar-height-6.2.diff)
 - [barpadding](https://dwm.suckless.org/patches/barpadding/dwm-barpadding-20211020-a786211.diff)
-- [bottomstack](https://dwm.suckless.org/patches/bottomstack/)
+- [bottomstack](https://dwm.suckless.org/patches/bottomstack/) (with the vanitygaps modifications)
 - [colorbar](https://dwm.suckless.org/patches/colorbar/dwm-colorbar-6.3.diff)
 - [fixborders](https://dwm.suckless.org/patches/alpha/dwm-fixborders-6.2.diff)
 - [keycodes](https://dwm.suckless.org/patches/keycodes/dwm-keycodes-6.4.diff)
